@@ -1,4 +1,4 @@
-import App from '../src/index.vue'
+import App from '../src/slider.vue'
 import mixin from '../src/mixins/mixins.js'
 Vue.mixin(mixin)
 App.el = '#root'

@@ -155,13 +155,78 @@
           </div>
         </div>
       </cell>
+      <!-- 大转盘抽奖 -->
+      <cell>
+        <!-- 转盘标题 -->
+        <div class="activity-title">
+          <div class="activity-title-wrapper">
+            <image class="activity-image" src="http://designsvn.360che.com/design_web/LJL/10.18_BusinessPromotion/assets/gold_bg.png"></image>
+            <text class="activity-text">大转盘抽奖</text>
+          </div>
+          <div class="rule">
+            <image style="width:22px;height:22px;" src="http://designsvn.360che.com/design_web/LJL/10.18_BusinessPromotion/assets/rules.svg"></image>
+            <text class="rule-text">查看规则</text>
+          </div>
+        </div>
+        <!-- 大转盘 -->
+        <div class="luck-draw">
+          <div class="luck-draw-model">
+            <image v-if="lamp" class="lamp" src="http://designsvn.360che.com/design_web/LJL/10.18_BusinessPromotion/assets/%E7%9B%98%E4%BD%93.png"></image>
+            <image v-if="!lamp" class="lamp" style="transform:rotate(-15deg)" src="http://designsvn.360che.com/design_web/LJL/10.18_BusinessPromotion/assets/%E7%9B%98%E4%BD%93.png"></image>
+            <div class="small-body" ref="awardDisc">
+              <image style="width:572px;height:572px;'" src="http://designsvn.360che.com/design_web/LJL/10.18_BusinessPromotion/assets/%E7%9B%98%E8%BA%AB.png"></image>
+              <div class="prize-wrapper">
+                 <div class="prize-info prize-info0">
+                  <text class="options">选项一</text>
+                  <text class="prize-number">数量</text>
+                </div>
+                <div class="prize-info prize-info1">
+                  <text class="options">选项二</text>
+                  <text class="prize-number">数量</text>
+                </div>
+                <div class="prize-info prize-info2">
+                  <text class="options">选项三</text>
+                  <text class="prize-number">数量</text>
+                </div>
+                <div class="prize-info prize-info3">
+                  <text class="options">选项四</text>
+                  <text class="prize-number">数量</text>
+                </div>
+                <div class="prize-info prize-info4">
+                  <text class="options">选项五</text>
+                  <text class="prize-number">数量</text>
+                </div>
+                <div class="prize-info prize-info5">
+                  <text class="options">选项六</text>
+                  <text class="prize-number">数量</text>
+                </div>
+              </div>
+            </div>
+            <image class="pointer" style="width:202px;height:260px" src="http://designsvn.360che.com/design_web/LJL/10.18_BusinessPromotion/assets/%E6%8C%87%E9%92%88.png"></image>
+            <div class="pointer-wrapper" @click="luckDraw">
+              <text class="luck-draw-text">立即抽奖</text>
+            </div>
+          </div>
+        </div>
+      </cell>
     </list>
+    <div class="footer">
+      <div class="footer-list" v-for="item in footerData">
+        <image :src="item.src" style="width:48px;height:48px"></image>
+        <text :class="['footer-nav-text',item.select ? 'footer-nav-visible' : '']">{{item.name}}</text>
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
+  /*footer栏*/
+  .footer{height:100px;background-color: #fff;flex-direction: row}
+  .footer-list{flex:1;padding-top:4px;padding-bottom:4px;justify-content: flex-end;align-items: center;}
+  .footer-nav-text{font-size:20px;color:#5C6066;margin-top: 12px;}
+  .footer-nav-visible{color:#f60;}
 
-  .container{position:absolute;left:0;top:0;right:0;bottom:0;}
+  .container{position:absolute;left:0;top:0;right:0;bottom:0;position:absolute;}
   /*标题栏*/
   .wrapper {position:relative;flex:1;background-color:#CB1E1A;}
   .title {height:90px;flex-direction: row;background-color:#fff;}
@@ -266,13 +331,54 @@
     .goods-button{width:128px;height:56px;justify-content: center;align-items: center;border-top-left-radius: 8px;border-top-right-radius: 8px;border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;background-color:#f44336;}
     .goods-button-disabled{background-color:#A1A9B3;}
     .goods-button-text{color:#fff;font-size:28px;}
+
+  /*大转盘抽奖*/
+  .lamp{width:688px;height:688px;}
+  .luck-draw{justify-content: center;align-items: center;}
+  .luck-draw-model{position:relative;width:688px;height:688px;}
+  .small-body{position:absolute;top:58px;left:58px;}
+  .pointer{position:absolute;left:242px;top:184px;width:202px;height:260px;}
+  .pointer-wrapper{position:absolute;left:268px;top:268px;width:152px;
+    padding-left:30px;
+    padding-right:30px;
+    height:152px;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 76px;
+    border-top-right-radius: 76px;
+    border-bottom-left-radius: 76px;
+    border-bottom-right-radius: 76px;
+    background-image:linear-gradient(to bottom,#FF6600,rgba(217,58,44,1));
+  }
+  .luck-draw-text{font-size: 40px;color: #FBFF00;font-weight: bold;-webkit-box-orient: vertical;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;overflow: hidden;lines: 2;}
+  .prize-wrapper{position:absolute;left:246px;top:38px;width:84px;height:98px;}
+  .prize-info{position:absolute;left:0;right:0;}
+  .options{font-size: 28px;color: #F44336;}
+  .prize-number{font-size: 40px;color: #F44336;font-weight: bold;}
+  .prize-info0{transform: rotate(30deg);transform-origin:40px 250px;}
+  .prize-info1{transform: rotate(90deg);transform-origin:40px 250px;}
+  .prize-info2{transform: rotate(150deg);transform-origin:40px 250px;}
+  .prize-info3{transform: rotate(210deg);transform-origin:40px 250px;}
+  .prize-info4{transform: rotate(270deg);transform-origin:40px 250px;}
+  .prize-info5{transform: rotate(330deg);transform-origin:40px 250px;}
 </style>
 
 <script type="text/babel">
   const meta = weex.requireModule('meta')
   const modal = weex.requireModule('modal')
+  const animation = weex.requireModule('animation')
   export default {
     data: {
+      //用户个人信息
+      userInfo:{
+        //抽奖次数
+        luckDrawNumber:5
+      },
+      //控制抽奖开关
+      luckDrawing:true,
+      // 控制灯转动
+      lamp:true,
+      number:2130,
       //标题
       title:'标题标题标题',
       //是否显示标题栏
@@ -432,18 +538,88 @@
             Total:18
           }
         ]
-      }
-    },
-    methods: {
+      },
+      // 底部导航栏
+      footerData:[
+        {
+          name:'首页',
+          src:'http://placeholder.qiniudn.com/48x48',
+          select:true
+        },
+        {
+          name:'其他',
+          src:'http://placeholder.qiniudn.com/48x48'
+        },
+        {
+          name:'其他',
+          src:'http://placeholder.qiniudn.com/48x48'
+        },
+        {
+          name:'其他',
+          src:'http://placeholder.qiniudn.com/48x48'
+        },
+        {
+          name:'其他',
+          src:'http://placeholder.qiniudn.com/48x48'
+        },
+      ]
     },
     created(){
       // 配置 viewport 的宽度为 720px
       meta && meta.setViewport({
         width: 720
       })
+
       //判断是否是Web页面打开 && 隐藏APP标题栏
       // if(weex.config.env.platform == 'Web'){
       //   this.titleShow = false;
+      // }
+    },
+    methods:{
+      //点击抽奖
+      luckDraw(){
+        //查看用户抽奖次数够不够
+        if(this.userInfo.luckDrawNumber > 0){
+          if (this.luckDrawing) {
+            this.luckDrawing = false;
+            let awardDisc = this.$refs.awardDisc;
+
+            //奖盘
+            animation.transition(awardDisc,{
+              styles: {
+                  transform: `rotate(${this.number}deg)`
+              },
+              duration: 5000, //ms
+              timingFunction: 'cubic-bezier(.05,.56,.58,.98)',
+              delay: 0 //ms
+            },() => {
+              this.number += 2100
+              this.userInfo.luckDrawNumber--;
+              this.luckDrawing = true;
+              this.alert('恭喜,二等奖')
+              // animation.transition(awardDisc,{
+              //   styles: {
+              //       transform: 'rotate(0deg)'
+              //   },
+              //   duration: 0, //ms
+              //   timingFunction: 'ease',
+              //   delay: 0 //ms
+              // })
+            })
+          }
+        }else{
+          this.alert('您还没有抽奖次数哟~')
+        }
+      }
+    },
+    //监听
+    watch:{
+      // lamp(){
+      //   let time = setTimeout(() => {
+      //     console.log(this.lamp,'lamp')
+      //     this.lamp = !this.lamp
+      //     clearTimeout(time)
+      //   },1000)
       // }
     }
   }

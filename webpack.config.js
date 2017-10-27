@@ -19,7 +19,9 @@ function getEntryFileContent(entryPath, vueFilePath) {
   if (isWin) {
     relativePath = relativePath.replace(/\\/g,'\\\\');
   }
-  contents += 'var App = require(\'' + relativePath + '\')\n';
+  contents += 'import App from \'' + relativePath + '\'\n';
+  contents += 'import mixin from \'../src/mixins/mixins.js\'\n';
+  contents += 'Vue.mixin(mixin)\n';
   contents += 'App.el = \'#root\'\n';
   contents += 'new Vue(App)\n';
   return contents;
@@ -46,9 +48,9 @@ function walk(dir) {
         if (extname === '.vue') {
           const entryFile = pathTo.join(vueWebTemp, dir, pathTo.basename(file, extname) + '.js');
           fs.outputFileSync(pathTo.join(entryFile), getEntryFileContent(entryFile, fullpath));
-          
+
           entry[name] = pathTo.join(__dirname, entryFile) + '?entry=true';
-        } 
+        }
         weexEntry[name] = fullpath + '?entry=true';
       } else if (stat.isDirectory() && file !== 'build' && file !== 'include') {
         const subdir = pathTo.join(dir, file);
@@ -67,6 +69,7 @@ const plugins = [
     exclude: 'Vue'
   })
 ];
+console.log(entry,'entry')
 const webConfig = {
   context: pathTo.join(__dirname, ''),
   entry: entry,
