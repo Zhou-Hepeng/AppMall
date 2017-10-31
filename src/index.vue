@@ -364,6 +364,9 @@
 </style>
 
 <script type="text/babel">
+  import mixins from './mixins/mixins.js'
+  Vue.mixin(mixins)
+
   const meta = weex.requireModule('meta')
   const modal = weex.requireModule('modal')
   const animation = weex.requireModule('animation')
